@@ -44,8 +44,8 @@ class Users(Resource):
       return {"message": "Please provide first_name or last_name or other_name or email or phone_number or passport_url"}, 400
     if len(password) < 6:
       return {"message": "Password length should be greater than 6"}, 400
-    if not phone_number.startswith('+254'):
-      return {"message": "Phone number must start with +254"}, 400  
+    if not phone_number.startswith('+254') or not len (phone_number) == 13:
+      return {"message": "invlid phone number"}, 400  
     if not re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email):
       return {"message": "Please provide a valid email."}, 400
     for user in users:  
