@@ -35,7 +35,14 @@ class SingleOffice(Resource):
       return {"message": "page not availabe"}, 400
     return single_office.single_office(id), 201
 
+class GetAllOffice(Resource):
+  def get(self):
+    office = OfficesModel()
+    if not office.all_office():
+      return {"message": "page not availabe"}, 400
+    return office.all_office()
     
-
 api.add_resource(Office, '/office')
-api.add_resource(SingleOffice, '/office/<int:id>')  
+api.add_resource(SingleOffice, '/office/<int:id>')
+api.add_resource(GetAllOffice, '/offices')
+
