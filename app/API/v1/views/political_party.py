@@ -22,6 +22,13 @@ def allowed_file(filename):
     filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 class Party(Resource):
+
+  def get(self):
+   partys = PartysModel()
+   if not partys.get_all_party():
+      return {"message": "page not availabe"}, 400
+   return partys.get_all_party()
+
   def post(self):
     arguments = political_party.parse_args()
     name = arguments['name']
@@ -38,10 +45,18 @@ class Party(Resource):
       return{"message":"Bad format"}, 400
     if not name or not hq_address or not logo_url:
       return {"message": "Please provide name or hq_address or logo_url"}, 400
-    party = PartysModel(name, hq_address, logo_url)
+    party = PartysModel()
     party = party.save(name, hq_address, logo_url)
     return {"message": "Party created successfully" ,"data": [party] }, 200
 
+class SingleParty(Resource):
+  def get(self,party_id):
+    single_party=PartysModel()
+    if not single_party.get_single_party(party_id):
+      return {"message": "page not availabe"}, 400
+    return single_party.get_single_party(party_id)
+
 api.add_resource(Party, '/party')
+api.add_resource(SingleParty, '/party/<int:party_id>')
 
 
