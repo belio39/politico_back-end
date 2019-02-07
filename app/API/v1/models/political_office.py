@@ -1,10 +1,9 @@
 offices = []
 
 class OfficesModel:
-  def __init__(self, office_type, name):
+  def __init__(self):
     self.offices = offices
-    self.office_type = office_type
-    self.name = name
+    
 
   def save(self, office_type, name):
     new_office = {
@@ -16,3 +15,7 @@ class OfficesModel:
     offices.append(new_office)
     return new_office
 
+  def single_office(self, id):
+    return [office for office in offices if id in office.values()]
+
+    

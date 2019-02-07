@@ -24,8 +24,18 @@ class Office(Resource):
         return {"message": "office already exists"}, 400
       if name in office.values():
         return {"message": "name already exists"}     
-    office = OfficesModel(office_type, name)
+    office = OfficesModel()
     office = office.save(office_type, name)
-    return {"message": "Office created successfully" ,"data": [office] }, 200  
+    return {"message": "Office created successfully" ,"data": [office] }, 200
 
-api.add_resource(Office, '/office')    
+class SingleOffice(Resource):
+  def get(self,id):
+    single_office = OfficesModel()
+    if not single_office.single_office(id):
+      return {"message": "page not availabe"}, 400
+    return single_office.single_office(id), 201
+
+    
+
+api.add_resource(Office, '/office')
+api.add_resource(SingleOffice, '/office/<int:id>')  
