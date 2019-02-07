@@ -16,3 +16,5 @@ class PartysModel:
   def get_single_party(self, party_id):
     return [party for party in partys if party_id in party.values()]
 
+  def get_all_party(self):
+    return self.partys

@@ -22,6 +22,13 @@ def allowed_file(filename):
     filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 class Party(Resource):
+
+  def get(self):
+   partys = PartysModel()
+   if not partys.get_all_party():
+      return {"message": "page not availabe"}, 400
+   return partys.get_all_party()
+
   def post(self):
     arguments = political_party.parse_args()
     name = arguments['name']
