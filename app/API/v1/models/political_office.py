@@ -3,7 +3,7 @@ offices = []
 class OfficesModel:
   def __init__(self):
     self.offices = offices
-    
+
 
   def save(self, office_type, name):
     new_office = {
@@ -17,5 +17,8 @@ class OfficesModel:
 
   def single_office(self, id):
     return [office for office in offices if id in office.values()]
+
+  def all_office(self):
+    return offices  
 
     
