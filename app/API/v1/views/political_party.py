@@ -43,6 +43,9 @@ class Party(Resource):
     for party in partys:  
       if name in party.values():
         return {"message": "political party already exists"}, 400
+    for party in partys:  
+      if hq_address in party.values():
+        return {"message": "the address you provided is used by another party"}, 400
     if logo:
       logo_url = secure_filename(logo.filename)
       logo.save(os.path.join(app.config['UPLOAD_FOLDER'], logo_url))
@@ -61,6 +64,14 @@ class SingleParty(Resource):
       return {"message": "Party not availabe"}, 400
     return single_party.get_single_party(party_id)
   
+  def delete(self, party_id):
+    party = PartysModel()
+    single_party = party.get_single_party(party_id)
+    if not single_party:
+      return {"message": "Party not found"}, 404
+    par = party.delete_single_party(party_id)
+    return {"message": "Party deleted successfully"}, 200
+
   def put(self, party_id):
     arguments = edit_political_party.parse_args()
     name = arguments['name']
@@ -75,7 +86,7 @@ class SingleParty(Resource):
       return {"message": "Party not found"}, 404
     par = party.edit_party(party_id, name, hq_address, logo_url)
     return {"message": "Party editid successfully", "data": par}, 200
-      
+
 api.add_resource(Party, '/party')
 api.add_resource(SingleParty, '/party/<int:party_id>')
 
