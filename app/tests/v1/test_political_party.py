@@ -46,6 +46,46 @@ class BaseTest(unittest.TestCase):
     register = self.client.post('/party', data=self.test_political_party_with_no_logo_url)
     self.assertEqual(register.status_code, 400)  
 
+  def test_political_party_with_no_logo_url(self):
+    register = self.client.post('/get', data=self.test_political_party_with_no_logo_url)
+    self.assertEqual(register.status_code, 404)
+  
+  def get_single_political_party(self):
+    return self.client.get('/party/1')
+  
+  def get_single_political_party(self):
+    response = get_single_political_party()
+    self.assertEqual(response.status_code, 200)
+
+  def get_all_political_party(self):
+    return self.client.get('/party')
+
+  def get_all_political_party(self):
+    response = get_all_political_party()
+    self.assertEqual(response.status_code, 200)
+
+  def edit_political_party(self):
+    return self.client.get('/party/8')
+
+  def delete_political_party(self):
+    return self.client.delete('/politics/1')
+
+  def edit_political_party(self):
+    response = edit_political_party()
+    self.assertEqual(response.status_code, 200)
+
+  def delete_political_party(self):
+      return self.client.delete('/politics/1')
+
+  def delete_political_party(self):
+    response = delete_political_party()
+    self.assertEqual(response.status_code, 200)
+
   def tearDown(self):
       
     self.app = None  
+
+
+
+
+
