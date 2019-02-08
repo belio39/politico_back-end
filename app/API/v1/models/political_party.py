@@ -31,3 +31,9 @@ class PartysModel:
         update("hq_address", hq_address)
         update("logo_url", logo_url)
         return party
+
+  def delete_single_party(self, party_id):
+    for party in self.partys:
+      if party_id in party.values():
+        self.partys.remove(party)
+        return {"message": "Party deleted successfully."}
