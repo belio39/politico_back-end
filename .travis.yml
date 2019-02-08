@@ -8,6 +8,7 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install coverage
+  - pip install coveralls
 
 # Command to run tests
 
@@ -15,8 +16,7 @@ script:
  
 - coverage run -m unittest discover && coverage report
 
-# Using this  command travis will build your system and get the coverage.
-after_script:
+after_success:
   - coveralls
 
 

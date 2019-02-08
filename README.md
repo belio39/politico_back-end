@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.org/belio39/politico_back-end.svg?branch=develop)](https://travis-ci.org/belio39/politico_back-end)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1cb17183af1da03af9b6/maintainability)](https://codeclimate.com/github/belio39/politico_back-end/maintainability)
 
 
