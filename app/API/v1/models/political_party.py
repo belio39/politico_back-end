@@ -1,4 +1,9 @@
-partys = []
+partys = [{
+      "id" : 1,
+      "name" : "deni",
+      "hq_address" : "kenya",
+      "logo_url": "logo_url",
+}]
 
 class PartysModel:
   def __init__(self, name, hq_address, logo_url):
