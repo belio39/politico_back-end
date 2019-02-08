@@ -12,6 +12,11 @@ political_party.add_argument('name', type=str, help='Please enter your name', re
 political_party.add_argument('hq_address', type=str, help='Please enter your hq_address', required=True)
 political_party.add_argument('logo', type=werkzeug.datastructures.FileStorage, location='files', required=True)
 
+edit_political_party = reqparse.RequestParser()
+edit_political_party.add_argument('name', type=str, help='Please enter your name', required=True)
+edit_political_party.add_argument('hq_address', type=str, help='Please enter your hq_address', required=True)
+edit_political_party.add_argument('logo', type=werkzeug.datastructures.FileStorage, location='files', required=True)
+
 PROJECT_HOME = os.path.dirname(os.path.realpath(__file__))
 UPLOAD_FOLDER = '{}/uploads/'.format(PROJECT_HOME)
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -53,9 +58,24 @@ class SingleParty(Resource):
   def get(self,party_id):
     single_party=PartysModel()
     if not single_party.get_single_party(party_id):
-      return {"message": "page not availabe"}, 400
+      return {"message": "Party not availabe"}, 400
     return single_party.get_single_party(party_id)
-
+  
+  def put(self, party_id):
+    arguments = edit_political_party.parse_args()
+    name = arguments['name']
+    hq_address = arguments['hq_address']
+    logo = arguments['logo']
+    if logo:
+      logo_url = secure_filename(logo.filename)
+      logo.save(os.path.join(app.config['UPLOAD_FOLDER'], logo_url))
+    party = PartysModel()
+    find_party = party.get_single_party(party_id)
+    if not find_party:
+      return {"message": "Party not found"}, 404
+    par = party.edit_party(party_id, name, hq_address, logo_url)
+    return {"message": "Party editid successfully", "data": par}, 200
+      
 api.add_resource(Party, '/party')
 api.add_resource(SingleParty, '/party/<int:party_id>')
 
