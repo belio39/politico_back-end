@@ -18,3 +18,16 @@ class PartysModel:
 
   def get_all_party(self):
     return self.partys
+
+  def edit_party(self, party_id, name, hq_address, logo_url):
+    for party in self.partys:
+      if party_id in party.values():
+        def update(find_key, new_value):
+          for key in party:
+            if key == find_key:
+              party[key] = new_value
+        update("party_id",party_id)
+        update("name", name)
+        update("hq_address", hq_address)
+        update("logo_url", logo_url)
+        return party
