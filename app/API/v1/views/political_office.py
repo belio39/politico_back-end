@@ -1,4 +1,3 @@
-import re
 from ..models.political_office import OfficesModel, offices
 from flask import Flask
 from flask_restful import Resource, reqparse
@@ -12,21 +11,21 @@ class Office(Resource):
   def post(self):
     arguments = political_office.parse_args()
     office_type = arguments['office_type']
-    if re.match (r"^[0-9\.\+_*&#@$%()?|[]]", office_type):
-      return{"message":"Bad format"}
     name = arguments['name']
-    if not office_type.isalpha():
-      return{"message":"Bad format"}
+
     if not office_type or not name:
       return{"message": "Provide office and name"}, 400
-    for office in offices: 
-      if office_type in office.values():
-        return {"message": "office already exists"}, 400
-      if name in office.values():
-        return {"message": "name already exists"}     
+
+    if not office_type.isalpha():
+      return{"message":"Office type should be alphabet"}, 400
+
+    for office in offices:
+      if office_type in office.values() or name in office.values():
+        return {"message": "either office or name already exists"}, 400
+
     office = OfficesModel()
     office = office.save(office_type, name)
-    return {"message": "Office created successfully" ,"data": [office] }, 200
+    return {"message": "Office created successfully" ,"data": [office] }, 201
 
 class SingleOffice(Resource):
   def get(self,id):

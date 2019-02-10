@@ -1,4 +1,4 @@
 [run]
 source = 
-  app/API/
+  app/API/v1/views
   app/tests/

@@ -1,6 +1,7 @@
 
 import unittest
 from app import app
+from io import BytesIO
 from app.API.v1.views.user_registration import *
 
 class BaseTest(unittest.TestCase):
@@ -13,7 +14,7 @@ class BaseTest(unittest.TestCase):
       "other_name": "rotich", 
       "email": "dbelio@gmail.com",
       "phone_number": "+254723624569",
-      "passport": "passport",
+      "passport": (BytesIO(b'file content'),"test.png"),
       "password": "123456",
       }
   
@@ -87,8 +88,8 @@ class BaseTest(unittest.TestCase):
       }
 
   def test_registration_valid(self):
-    register = self.client.post('/users', data=self.user_registration_valid)
-    self.assertEqual(register.status_code, 400)
+    register = self.client.post('/users', data=self.user_registration_valid, content_type='multipart/form-data')
+    self.assertEqual(register.status_code, 201)
 
   def test_registration_invalid_email(self):
     register = self.client.post('/users', data=self.user_registration_invalid_email)

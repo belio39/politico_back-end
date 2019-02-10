@@ -1,4 +1,11 @@
-offices = []
+offices = [
+  {
+    "id" : 1,
+    "office_type": "mp",
+    "name": "kanu",
+
+  }
+]
 
 class OfficesModel:
   def __init__(self):
