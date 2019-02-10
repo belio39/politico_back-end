@@ -102,7 +102,7 @@ To set up testing environment
 </table>
 
 # Resources
-The API is hosted on [Heroku](https://politico.app.herokuapp.com/)
+The API is hosted on [Heroku](https://politikokenya.herokuapp.com/)
 
 # Authors
 > [Dennis rotich Belio](https://github.com/belio39)
