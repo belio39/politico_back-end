@@ -1,4 +1,3 @@
-import re
 import os
 from ..models.political_party import PartysModel, partys
 from flask import Flask
@@ -19,7 +18,7 @@ edit_political_party.add_argument('logo', type=werkzeug.datastructures.FileStora
 
 PROJECT_HOME = os.path.dirname(os.path.realpath(__file__))
 UPLOAD_FOLDER = '{}/uploads/'.format(PROJECT_HOME)
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
@@ -27,7 +26,7 @@ def allowed_file(filename):
     filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 class Party(Resource):
-
+  
   def get(self):
    partys = PartysModel()
    if not partys.get_all_party():
@@ -41,11 +40,8 @@ class Party(Resource):
     logo = arguments['logo']
 
     for party in partys:  
-      if name in party.values():
-        return {"message": "political party already exists"}, 400
-    for party in partys:  
-      if hq_address in party.values():
-        return {"message": "the address you provided is used by another party"}, 400
+      if name in party.values() or  hq_address in party.values():
+        return {"message": "political and address already exists"}, 400
     if logo:
       logo_url = secure_filename(logo.filename)
       logo.save(os.path.join(app.config['UPLOAD_FOLDER'], logo_url))
@@ -55,7 +51,7 @@ class Party(Resource):
       return {"message": "Please provide name or hq_address or logo_url"}, 400
     party = PartysModel()
     party = party.save(name, hq_address, logo_url)
-    return {"message": "Party created successfully" ,"data": [party] }, 200
+    return {"message": "Party created successfully" ,"data": [party] }, 201
 
 class SingleParty(Resource):
   def get(self,party_id):
@@ -69,7 +65,7 @@ class SingleParty(Resource):
     single_party = party.get_single_party(party_id)
     if not single_party:
       return {"message": "Party not found"}, 404
-    par = party.delete_single_party(party_id)
+    party.delete_single_party(party_id)
     return {"message": "Party deleted successfully"}, 200
 
   def put(self, party_id):

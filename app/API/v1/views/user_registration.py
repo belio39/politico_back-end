@@ -1,6 +1,7 @@
 import re
 import os
 from ..models.user_registration_model import UsersModel, users
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask
 from flask_restful import Resource, reqparse
 from werkzeug.utils import secure_filename
@@ -18,12 +19,16 @@ user_registration.add_argument('password', type=str, help='Please provide your p
 
 PROJECT_HOME = os.path.dirname(os.path.realpath(__file__))
 UPLOAD_FOLDER = '{}/uploads/'.format(PROJECT_HOME)
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
   return '.' in filename and \
     filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+class Main(Resource):
+  def get(self):
+    return{"message":"Main page"}, 200
 
 class Users(Resource):
   '''User registration'''
@@ -45,17 +50,19 @@ class Users(Resource):
     if len(password) < 6:
       return {"message": "Password length should be greater than 6"}, 400
     if not phone_number.startswith('+254'):
-      return {"message": "Phone number must start with +254"}, 400  
+      return {"message": "Phone number must start with +254"}, 400
     if not re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email):
       return {"message": "Please provide a valid email."}, 400
-    for user in users:  
-      if email in user.values():
-        return {"message": "Email already exists"}, 400
-      if phone_number in user.values():
-        return {"message": "Phone number already exists"}  
+    for user in users:
+      if email in user.values() or phone_number in user.values():
+        return {"message": "Email or phonr_number already exists"}, 409
 
-    new_user = UsersModel(first_name, last_name, other_name, email, phone_number, passport_url, password)
-    new_user = new_user.save(first_name, last_name, other_name, email, phone_number, passport_url, password)  
+    hashed_password = generate_password_hash(password)
+    new_user = UsersModel(first_name, last_name, other_name, email, phone_number, passport_url, hashed_password)
+    new_user = new_user.save(first_name, last_name, other_name, email, phone_number, passport_url, hashed_password)  
     return new_user, 201  
 
-api.add_resource(Users, '/users')  
+api.add_resource(Users, '/users')
+api.add_resource(Main, '/')
+
+
