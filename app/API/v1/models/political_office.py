@@ -1,7 +1,7 @@
 offices = [
   {
     "id" : 1,
-    "office_type": "mp",
+    "officetype": "mp",
     "name": "kanu",
 
   }
@@ -12,10 +12,10 @@ class OfficesModel:
     self.offices = offices
 
 
-  def save(self, office_type, name):
+  def save(self, officetype, name):
     new_office = {
       "id": len(offices) +1,
-      "office_type": office_type,
+      "officetype": officetype,
       "name": name,
 
     }

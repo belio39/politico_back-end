@@ -1,18 +1,18 @@
 partys = [{
       "id" : 1,
       "name" : "deni",
-      "hq_address" : "kenya",
+      "headquateraddress" : "kenya",
       "logo_url": "logo_url",
 }]
 
 class PartysModel:
   def __init__(self):
     self.partys = partys
-  def save(self, name, hq_address, logo_url):
+  def save(self, name, headquateraddress, logo_url):
     new_party = {
       "party_id": len(self.partys) +1,
       "name": name,
-      "hq_address": hq_address,
+      "headquateraddress": headquateraddress,
       "logo_url": logo_url,
     }
     partys.append(new_party)
@@ -24,7 +24,7 @@ class PartysModel:
   def get_all_party(self):
     return self.partys
 
-  def edit_party(self, party_id, name, hq_address, logo_url):
+  def patch_party(self, party_id, name, headquateraddress, logo_url):
     for party in self.partys:
       if party_id in party.values():
         def update(find_key, new_value):
@@ -33,7 +33,7 @@ class PartysModel:
               party[key] = new_value
         update("party_id",party_id)
         update("name", name)
-        update("hq_address", hq_address)
+        update("headquateraddress", headquateraddress)
         update("logo_url", logo_url)
         return party
 

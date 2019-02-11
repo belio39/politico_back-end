@@ -9,81 +9,81 @@ class BaseTest(unittest.TestCase):
     self.app = app
     self.client = self.app.test_client()
     self.user_registration_valid = {
-      "first_name": "belio", 
-      "last_name" : "dennis",
-      "other_name": "rotich", 
+      "firstname": "belio", 
+      "lastname" : "dennis",
+      "othername": "rotich", 
       "email": "dbelio@gmail.com",
-      "phone_number": "+254723624569",
-      "passport": (BytesIO(b'file content'),"test.png"),
-      "password": "123456",
+      "phonenumber": "+254723624569",
+      "passporturl": (BytesIO(b'file content'),"test.png"),
+      "password": "1234tTR%&i56",
       }
   
     self.user_registration_invalid_email = {
-      "first_name": "belio", 
-      "last_name" : "dennis",
-      "other_name": "rotich", 
+      "firstname": "belio", 
+      "lastname" : "dennis",
+      "othername": "rotich", 
       "email": "dbeliomail.com",
-      "phone_number": "+254723624569",
-      "passport": "passport",
+      "phonenumber": "+254723624569",
+      "passporturl": "passport",
       "password": "123456",
       }
 
     self.user_registration_no_first_name = {
-      "first_name": "", 
-      "last_name" : "dennis",
-      "other_name": "rotich", 
+      "firstname": "", 
+      "lastname" : "dennis",
+      "othername": "rotich", 
       "email": "dbelio39@gmail.com",
-      "phone_number": "+254723624569",
-      "passport": "passport",
+      "phonenumber": "+254723624569",
+      "passporturl": "passport",
       "password": "123456",
       }
 
     self.user_registration_no_last_name = {
-      "first_name": "belio", 
-      "last_name" : "dennos",
-      "other_name": "", 
+      "firstname": "belio", 
+      "lastname" : "dennos",
+      "othername": "", 
       "email": "dbelio39@gmail.com",
-      "phone_number": "+254723624569",
-      "passport": "passport",
+      "phonenumber": "+254723624569",
+      "passporturl": "passport",
       "password": "123456",
       }
       
     self.user_registration_no_other_name = {
-      "first_name": "belio", 
-      "last_name" : "",
-      "other_name": "rotich", 
+      "firstname": "belio", 
+      "lastname" : "",
+      "othername": "rotich", 
       "email": "dbelio39@gmail.com",
-      "phone_number": "+254723624569",
-      "passport": "passport",
+      "phonenumber": "+254723624569",
+      "passporturl": "passport",
       "password": "123456",
       }
 
     self.user_registration_no_phone_number = {
-      "first_name": "belio", 
-      "last_name" : "",
-      "other_name": "rotich", 
+      "firstname": "belio", 
+      "lastname" : "",
+      "othername": "rotich", 
       "email": "dbelio39@gmail.com",
-      "phone_number": "",
-      "passport": "passport",
+      "phonenumber": "",
+      "passporturl": "passport",
       "password": "123456",
       }
     self.user_registration_no_passport = {
-      "first_name": "belio", 
-      "last_name" : "dennis",
-      "other_name": "rotich", 
+      "firstname": "belio", 
+      "lastname" : "dennis",
+      "othername": "rotich", 
       "email": "dbelio39@gmail.com",
-      "phone_number": "+254723624569",
-      "passport": "",
+      "phonenumber": "+254723624569",
+      "passporturl": "",
       "password": "123456",
       }
 
     self.user_registration_no_password = {
-      "first_name": "belio", 
-      "last_name" : "dennis",
-      "other_name": "rotich", 
+      "firstname": "belio", 
+      "lastname" : "dennis",
+      "othername": "rotich", 
       "email": "dbelio39@gmail.com",
-      "phone_number": "+254723624569",
-      "passport": "passport",
+      "phonenumber": "+254723624569",
+      "passporturl": "passport",
       "password": "",
       }
 
