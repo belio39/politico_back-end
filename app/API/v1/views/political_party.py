@@ -21,13 +21,6 @@ political_party.add_argument('logo', type=werkzeug.datastructures.FileStorage,
 edit_political_party = reqparse.RequestParser()
 edit_political_party.add_argument('name', type=str,
                                   help='Please enter your name', required=True)
-edit_political_party.add_argument('headquateraddress',
-                                  type=str,
-                                  help='Please enter your headquateraddress',
-                                  required=True)
-edit_political_party.add_argument('logo',
-                                  type=werkzeug.datastructures.FileStorage,
-                                  location='files', required=True)
 
 
 PROJECT_HOME = os.path.dirname(os.path.realpath(__file__))
@@ -61,10 +54,6 @@ class Party(Resource):
         if not headquateraddress:
             return {"status": 400,
                     "message": "Please provide headquateraddress"}, 400
-        if not re.match(r"^[A-Za-z0-9\.\+_-]*$", headquateraddress):
-            return {"status": 400,
-                    "message":
-                    "Please provide a valid headquateraddress."}, 400
         if logo:
             logo_url = secure_filename(logo.filename)
             logo.save(os.path.join(app.config['UPLOAD_FOLDER'], logo_url))
@@ -100,18 +89,18 @@ class SingleParty(Resource):
     def patch(self, party_id):
         arguments = edit_political_party.parse_args()
         name = arguments['name']
-        headquateraddress = arguments['headquateraddress']
-        logo = arguments['logo']
-        if logo:
-            logo_url = secure_filename(logo.filename)
-            logo.save(os.path.join(app.config['UPLOAD_FOLDER'], logo_url))
+        if not name:
+            return{"status": 400, "message": "Please provide name"}, 400
+        if not name.isalpha():
+            return{"status": 400,
+                   "message": "Office type should be alphabet"}, 400
         party = PartysModel()
         find_party = party.get_single_party(party_id)
         if not find_party:
             return {"status": 404, "message": "Party not found"}, 404
-        par = party.edit_party(party_id, name, headquateraddress, logo_url)
+        patchparty = party.patch_party(party_id, name)
         return {"status": 200, "message": "Party edited successfully",
-                "data": par}, 200
+                "data": patchparty}, 200
 
 api.add_resource(Party, '/party')
 api.add_resource(SingleParty, '/party/<int:party_id>')
